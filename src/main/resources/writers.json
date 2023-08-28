@@ -1,0 +1,24 @@
+[
+  {
+    "firstName": "John",
+    "id": "dc8d812a-15be-416b-94a3-8a75858e0042",
+    "lastName": "Snow",
+    "posts": [
+      {
+        "content": "I am the fire that burns against the cold, the light that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men...",
+        "created": "2023-08-29T01:49:18.311389",
+        "id": "00a0133a-cc14-460a-a478-c066eb3c606b",
+        "labels": [
+          {
+            "id": 1,
+            "name": "Song of fire and flame",
+            "status": "ACTIVE"
+          }
+        ],
+        "postStatus": "ACTIVE",
+        "updated": "2023-08-29T02:45:06.479730"
+      }
+    ],
+    "status": "ACTIVE"
+  }
+]

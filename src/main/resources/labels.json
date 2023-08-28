@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "Games of Thrones",
+    "status": "ACTIVE"
+  },
+  {
+    "id": 2,
+    "name": "Song of ice and fire",
+    "status": "ACTIVE"
+  }
+]
