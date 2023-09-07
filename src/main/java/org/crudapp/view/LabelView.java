@@ -11,8 +11,7 @@ import java.util.Scanner;
 public class LabelView {
 
     private final LabelController labelController;
-    private Label label;
-    private Scanner scanner;
+    private final Scanner scanner;
 
 
     public LabelView(LabelController labelController) {
@@ -20,7 +19,8 @@ public class LabelView {
         this.scanner = new Scanner(System.in);
     }
 
-    public void run() {
+    public Label run() {
+        Label label = null;
         int input;
         boolean flag = true;
         while (flag) {
@@ -37,7 +37,7 @@ public class LabelView {
                     System.out.print("Введите название Label: ");
                     String name = scanner.nextLine();
                     label = labelController.createLabel(name);
-                    break;
+                    return label;
                 case 2 :
                     while (true) {
                         System.out.print("Введите id Label: ");
@@ -45,30 +45,17 @@ public class LabelView {
                         scanner.nextLine();
                         System.out.print("Введите название для обновления Label: ");
                         String nameToUpdate = scanner.nextLine();
-                        try {
-                            label = labelController.updateLabel(nameToUpdate, id);
-                            break;
-                        } catch (NotFoundException e) {
-                            System.out.println("Такого Label не существует");
-                        } catch (StatusDeletedException e) {
-                            System.out.println("Этот Label удален");
-                        }
+                        label.setId(id);
+                        label.setName(nameToUpdate);
+                        labelController.updateLabel(label);
+                        return label;
                     }
-                    break;
                 case 3 :
                     while (true) {
                         System.out.print("Введите id для удаления: ");
                         Long id = scanner.nextLong();
-                        try {
-                            labelController.deleteById(id);
-                            break;
-                        } catch (StatusDeletedException e) {
-                            System.out.println("Label уже удален");
-                        } catch (NotFoundException e) {
-                            System.out.println("Такого Label не существует");
-                        }
+                        labelController.deleteById(id);
                     }
-                    break;
                 case 4 :
                     flag = false;
                     break;
@@ -78,5 +65,6 @@ public class LabelView {
             }
             break;
         }
+        return null;
     }
 }

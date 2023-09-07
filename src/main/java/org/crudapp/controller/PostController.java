@@ -10,6 +10,7 @@ import org.crudapp.repository.PostRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PostController {
 
@@ -28,41 +29,33 @@ public class PostController {
         return postRepository.save(post);
     }
 
-    public Post getPost(String id) throws NotFoundException {
+    public Post getPost(String id) {
         return postRepository.getById(id);
     }
 
-    public Post updatePost(String id, String content) throws StatusDeletedException, NotFoundException {
-       Post postToUpdate = Post.builder()
-               .content(content)
-               .build();
-
-       return postRepository.update(postToUpdate, id);
+    public Post updatePost(Post post) {
+        Post postToUpdate = Post.builder()
+                .labels(post.getLabels())
+                .id(post.getId())
+                .content(post.getContent())
+                .postStatus(post.getPostStatus())
+                .build();
+        return postRepository.update(postToUpdate);
     }
 
-    public List<Label> addLabelToPost(Label label, Post post) throws StatusDeletedException, NotFoundException {
+    public List<Label> addLabelToPost(Label label, Post post) {
         List<Label> labels = post.getLabels();
         labels.add(label);
         Post postToUpdate = Post.builder()
+                .id(post.getId())
+                .content(post.getContent())
+                .postStatus(PostStatus.ACTIVE)
                 .labels(labels)
                 .build();
-        postRepository.update(postToUpdate, post.getId());
-        return postRepository.getById(post.getId()).getLabels();
+        return postRepository.update(postToUpdate).getLabels();
     }
 
-    public List<Label> updateLabelToPost(Label label, Post post) throws StatusDeletedException, NotFoundException {
-        List<Label> labels = post.getLabels();
-        for (int i = 0; i < labels.size(); i++) {
-            if(labels.get(i).getId().equals(post.getId())) {
-                labels.set(i, label);
-                break;
-            }
-        }
-        post.setLabels(labels);
-        return postRepository.update(post, post.getId()).getLabels();
-    }
-
-    public void deletePostById(String id) throws StatusDeletedException, NotFoundException {
+    public void deletePostById(String id) {
         postRepository.deleteById(id);
     }
 }

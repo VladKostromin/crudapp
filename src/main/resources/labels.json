@@ -1,12 +1,22 @@
 [
   {
     "id": 1,
-    "name": "Games of Thrones",
+    "name": "test",
     "status": "ACTIVE"
   },
   {
     "id": 2,
-    "name": "Song of ice and fire",
+    "name": "writerlabel",
+    "status": "ACTIVE"
+  },
+  {
+    "id": 3,
+    "name": "second label for test writer",
+    "status": "ACTIVE"
+  },
+  {
+    "id": 4,
+    "name": "label for test",
     "status": "ACTIVE"
   }
 ]

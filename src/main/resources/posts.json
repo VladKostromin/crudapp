@@ -1,16 +1,50 @@
 [
   {
-    "content": "I am the fire that burns against the cold, the light that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men...",
-    "created": "2023-08-29T01:49:18.311389",
-    "id": "00a0133a-cc14-460a-a478-c066eb3c606b",
+    "content": "test",
+    "id": "2d00133e-cd13-404f-bd6d-f63cfd999dd7",
     "labels": [
       {
         "id": 1,
-        "name": "Song of fire and flame",
+        "name": "test",
         "status": "ACTIVE"
       }
     ],
-    "postStatus": "ACTIVE",
-    "updated": "2023-08-29T02:45:37.496559"
+    "postStatus": "ACTIVE"
+  },
+  {
+    "content": "writerpost",
+    "id": "fb147e98-1f86-44c8-a079-51b0ecbc2c73",
+    "labels": [
+      {
+        "id": 2,
+        "name": "writerlabel",
+        "status": "ACTIVE"
+      }
+    ],
+    "postStatus": "ACTIVE"
+  },
+  {
+    "content": "this is second post for test writer",
+    "id": "c2922965-c0a5-4291-99b1-1d3e7245836d",
+    "labels": [
+      {
+        "id": 3,
+        "name": "second label for test writer",
+        "status": "ACTIVE"
+      }
+    ],
+    "postStatus": "ACTIVE"
+  },
+  {
+    "content": "somepost",
+    "id": "bb8c29ee-6da4-4ac3-b9f0-2cd635dfa19f",
+    "labels": [
+      {
+        "id": 4,
+        "name": "label for test",
+        "status": "ACTIVE"
+      }
+    ],
+    "postStatus": "ACTIVE"
   }
 ]

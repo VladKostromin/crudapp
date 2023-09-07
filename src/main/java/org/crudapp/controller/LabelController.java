@@ -6,6 +6,8 @@ import org.crudapp.exceptions.StatusDeletedException;
 import org.crudapp.model.Label;
 import org.crudapp.repository.LabelRepository;
 
+import java.util.List;
+
 public class LabelController {
     private final LabelRepository labelRepository;
 
@@ -21,14 +23,17 @@ public class LabelController {
         return labelRepository.save(label);
     }
 
-    public Label updateLabel(String name, Long id) throws NotFoundException, StatusDeletedException {
+    public Label updateLabel(Label label) {
         Label labelToUpdate = Label.builder()
-                .name(name)
+                .id(label.getId())
+                .name(label.getName())
+                .status(label.getStatus())
                 .build();
-        return labelRepository.update(labelToUpdate, id);
+        return labelRepository.update(labelToUpdate);
     }
 
-    public void deleteById(Long id) throws StatusDeletedException, NotFoundException {
+    public void deleteById(Long id) {
         labelRepository.deleteById(id);
     }
+
 }

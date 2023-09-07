@@ -8,28 +8,28 @@ import org.crudapp.exceptions.StatusDeletedException;
 import org.crudapp.model.Label;
 import org.crudapp.model.Post;
 import org.crudapp.repository.LabelRepository;
-import org.crudapp.repository.gsonImpl.GsonLabelRepositoryImpl;
+import org.crudapp.repository.gson.GsonLabelRepositoryImpl;
 
 import java.util.List;
 import java.util.Scanner;
 
 @Getter
 public class PostView {
-    private PostController postController;
-    private LabelRepository labelRepository = new GsonLabelRepositoryImpl();
-    private LabelController labelController = new LabelController(labelRepository);
-    private LabelView labelView = new LabelView(labelController);
+    private final PostController postController;
+    private final LabelRepository labelRepository = new GsonLabelRepositoryImpl();
+    private final LabelController labelController = new LabelController(labelRepository);
+    private final LabelView labelView = new LabelView(labelController);
 
-    private Scanner scanner;
-
-    protected Post post;
+    private final Scanner scanner;
 
     public PostView(PostController postController) {
         this.postController = postController;
         this.scanner = new Scanner(System.in);
     }
 
-    public void run() {
+    public Post run() {
+        Post post;
+        Label label;
         int input;
         boolean flag = true;
         while (flag) {
@@ -43,52 +43,28 @@ public class PostView {
                     System.out.print("Введите контент поста: ");
                     String content = scanner.nextLine();
                     post = postController.createPost(content);
-                    labelView.run();
-                    try {
-                        post.setLabels(postController.addLabelToPost(labelView.getLabel(), post));
-                        break;
-                    } catch (StatusDeletedException e) {
-                        System.out.println("Пост удален");
-                    } catch (NotFoundException e) {
-                        System.out.println("Такого поста не существует");
-                    }
-                    break;
+                    label = labelView.run();
+                    postController.addLabelToPost(label, post);
+                    return post;
                 case 2 :
                     while (true) {
                         System.out.print("Введите id для поста: ");
                         String id = scanner.nextLine();
-                        try {
-                            System.out.print("Обновите контент: ");
-                            String contentToUpdate = scanner.nextLine();
-                            post = postController.updatePost(id, contentToUpdate);
-                            labelView.run();
-                            try {
-                                post.setLabels(postController.updateLabelToPost(labelView.getLabel(), post));
-                                break;
-                            } catch (StatusDeletedException e) {
-                                System.out.println("Пост удален");
-                            } catch (NotFoundException e) {
-                                System.out.println("Такого поста не существует");
-                            }
-                            break;
-                        } catch (NotFoundException e) {
-                            System.out.println("Такого поста не существует ");
-                        } catch (StatusDeletedException e) {
-                            System.out.println("Пост удален");
-                        }
+                        post = postController.getPost(id);
+                        System.out.print("Обновите контент: ");
+                        String contentToUpdate = scanner.nextLine();
+                        post.setContent(contentToUpdate);
+                        post.setId(id);
+                        postController.updatePost(post);
+                        label = labelView.run();
+                        postController.addLabelToPost(label, post);
+                        return post;
                     }
-                    break;
                 case 3 :
                     while (true) {
                         System.out.print("Вваедите id для удаления: ");
                         String id = scanner.nextLine();
-                        try {
-                            postController.deletePostById(id);
-                        } catch (StatusDeletedException e) {
-                            System.out.println("Поста удален");
-                        } catch (NotFoundException e) {
-                            System.out.println("Поста с таким id не существует");
-                        }
+                        postController.deletePostById(id);
                         break;
                     }
                 default: {
@@ -97,5 +73,6 @@ public class PostView {
             }
             break;
         }
+        return null;
     }
 }

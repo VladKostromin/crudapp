@@ -28,7 +28,19 @@ public class WriterController {
                 .build());
     }
 
-    public Writer getWriterById(String id) throws NotFoundException {
+    public Writer createWriter(String firstName, String lastName, List<Post> posts) {
+        return writerRepository.save(Writer.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .status(Status.ACTIVE)
+                .posts(posts)
+                .posts(new ArrayList<>())
+                .build());
+    }
+
+
+
+    public Writer getWriterById(String id) {
         return writerRepository.getById(id);
     }
 
@@ -36,29 +48,33 @@ public class WriterController {
         return writerRepository.getAll();
     }
 
-    public void deleteById(String id) throws StatusDeletedException, NotFoundException {
+    public void deleteById(String id){
         writerRepository.deleteById(id);
     }
 
-    public Writer updateWriter(String firstName, String lastName, String id) throws NotFoundException, StatusDeletedException {
+    public Writer updateWriter(Writer writer) {
         Writer writerToUpdate = Writer.builder()
-                .firstName(firstName)
-                .lastName(lastName)
+                .firstName(writer.getFirstName())
+                .lastName(writer.getLastName())
                 .build();
-        return writerRepository.update(writerToUpdate, id);
+        return writerRepository.update(writerToUpdate);
     }
 
-    public List<Post> addNewPostToWriter(Post post, Writer writer) throws StatusDeletedException, NotFoundException {
+    public List<Post> addNewPostToWriter(Post post, Writer writer){
         List<Post> posts = writer.getPosts();
         posts.add(post);
         Writer writerToUpdate = Writer.builder()
+                .firstName(writer.getFirstName())
+                .lastName(writer.getLastName())
+                .status(writer.getStatus())
                 .posts(posts)
+                .id(writer.getId())
                 .build();
-        writerRepository.update(writerToUpdate,writer.getId());
-        return writerRepository.getById(writer.getId()).getPosts();
+        writerRepository.update(writerToUpdate);
+        return posts;
     }
 
-    public List<Post> updatePostToWriter(Post post, Writer writer) throws StatusDeletedException, NotFoundException {
+    public List<Post> updatePostToWriter(Post post, Writer writer) {
         List<Post> posts = writer.getPosts();
         for (int i = 0; i < posts.size(); i++) {
             if(posts.get(i).getId().equals(post.getId())) {
@@ -67,7 +83,7 @@ public class WriterController {
             }
         }
         writer.setPosts(posts);
-        return writerRepository.update(writer, writer.getId()).getPosts();
+        return writerRepository.update(writer).getPosts();
     }
 
 
